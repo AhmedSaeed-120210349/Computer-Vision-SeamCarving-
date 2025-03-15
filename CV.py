@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def compute_energy(image):
-    """Compute the energy of an image using the gradient magnitude."""
+    """ Compute the energy of an image using the gradient magnitude """
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     dx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
     dy = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
@@ -14,7 +14,7 @@ def compute_energy(image):
 
 
 def find_seam(energy):
-    """Find the lowest-energy vertical seam using dynamic programming."""
+    """ Find the lowest-energy vertical seam """
     h, w = energy.shape
     cost = energy.copy()
     backtrack = np.zeros_like(cost, dtype=np.int64)
@@ -26,7 +26,7 @@ def find_seam(energy):
             up = cost[i-1, j]
             right = cost[i-1, j+1] if j < w-1 else float('inf')
             
-            min_index = np.argmin([left, up, right]) - 1  # -1 for left, 0 for up, 1 for right
+            min_index = np.argmin([left, up, right]) - 1     # -1 for left, 0 for up, 1 for right
             cost[i, j] += [left, up, right][min_index + 1]
             backtrack[i, j] = j + min_index
 
@@ -84,4 +84,4 @@ def seam_carving(image_path, num_seams):
 
 
 # Run the algorithm
-seam_carving(r"C:\Users\ahmed\OneDrive\Desktop\PIC.jpg", num_seams=100)  # Adjust the number of seams as needed
+seam_carving(r"C:\Users\ahmed\OneDrive\Desktop\PIC.jpg", num_seams=100)   # Adjust the number of seams as needed
